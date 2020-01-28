@@ -9,10 +9,10 @@ The family of problems that we consider are variants of the hitting set problem 
 In our context, an instance is comprised of a cohort of patients, which corresponds to a collection
 of hitting set instances on the same universe. The universe is a set of genes. The elements of the
 hitting set instance for any patient are cells. Each cell may or may not express each gene; if the gene
-is expressed, then the level of expression is a numerical value. Thus, we say that a "gene g hits a cell c"
-if g has a non-zero expression value in c. To make the problems more biologically relevant, we
-typically make the expression requirement more stringent by enforcing instead that gene g hits c, if the expression 
-of g in c is far above normal, which is parameterized as explained below.
+is expressed, then the level of expression is a numerical value. Thus, we say that a "gene `g` hits a cell `c`"
+if `g` has a non-zero expression value in `c`. To make the problems more biologically relevant, we
+typically make the expression requirement more stringent by enforcing instead that gene `g` hits `c`, if the expression 
+of `g` in `c` is far above normal, which is parameterized as explained below.
  
 In the most general sense, given a cohort of instances (patients), we want to find a small target set (TS) of genes which
 the following properties:
@@ -40,7 +40,7 @@ Please see our [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
 ## Getting data sets
 Since the data sets can be larger than Github's limit, we do not upload all of our data sets here.
-However, one actual data set can be found under the data/ directory.
+However, one actual data set can be found under the `data/` directory.
 
 We will upload more data sets later and the links should appear here.
 
