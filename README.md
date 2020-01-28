@@ -58,7 +58,7 @@ In this case, the program will first solve *n* hitting set instances, one for ea
 It will then find a set of genes containing optimal solutions for all instsances simutaneously.
 Combining the optimial solutions for single patients involves a second layer of optimization, which is done 
 in the same linear programming formulation. We sometimes refer to the optimal solutions for individual patients as "local" hitting stes. There may different choices of optimal local hitting sets for individual patients,
-such the different combinations (unions) of local hitting sets lead to smaller combined hitting sets, which we call "global" hitting sets. For example, suppose there are two individuals and the first individual has alternative individual optima {A, B}, {A, C} and the second individual has alternative optima {B, D}, {D, E}. Then, by choosing th individual optima {A, B} for the first individual and {B, D} for the second individual, we get a combined global hitting set of size 3: {A, B, D}. The three other combinations of optimal local hitting sets would give larger global hitting sets of size 4.
+such the different combinations (unions) of local hitting sets lead to smaller combined hitting sets, which we call "global" hitting sets. For example, suppose there are two individuals and the first individual has alternative individual optima `{A, B}, {A, C}` and the second individual has alternative optima `{B, D}, {D, E}`. Then, by choosing th individual optima `{A, B}` for the first individual and `{B, D}` for the second individual, we get a combined global hitting set of size 3: `{A, B, D}`. The three other combinations of optimal local hitting sets would give larger global hitting sets of size 4.
 
 ### Flags
 
@@ -159,12 +159,12 @@ This program will produce 20 replicates of the data set.
 For each replication and for each patient, it produces a smaller version of size at most 250 cells.
 
 If the input includes both tumor files and non-tumor files, then the file names should match as for
-hitting\_set.py. Each pair of files corresponding to a single patient will be sampled separately. The output file
-names include *replication\_<n>* as part of the file name to distinguish each replicate, where <n> is an
-integer from 1 up to the value specified for --replication. In the replication files for tumor cells for patients,
-there is going to be a suffix *actual\_<x>* where *x* is the actual number of cells we can sample.
-In most case, this will be identical to the number *y* in the argument `--num_cells y`, but if in an instance,
-the number of cells is less than *y*, then *x* will be that smaller number.
+`hitting\_set.py`. Each pair of files corresponding to a single patient will be sampled separately. The output file
+names include `replication\_<n>` as part of the file name to distinguish each replicate, where <n> is an
+integer from 1 up to the value specified for `--replication`. In the replication files for tumor cells for patients,
+there is going to be a suffix `actual\_<x>` where `x` is the actual number of cells we can sample.
+In most case, this will be identical to the number `y` in the argument `--num_cells y`, but if in an instance,
+the number of cells is less than `y`, then `x` will be that smaller number.
 
 
 ## Bash scripts
