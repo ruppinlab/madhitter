@@ -25,7 +25,7 @@ treatments or in purchasing existing treatments) if we can reuse the same target
 within the cohort).
 
 Our problem can be formulated as a generalized version of hitting set satisfying certain properties.
-See our manuscript: [The Landscape of Precision Cancer Combination Therapy: A Single-Cell Perspective](https://www.biorxiv.org/) for more details.
+See our manuscript: [The Landscape of Precision Cancer Combination Therapy: A Single-Cell Perspective](https://www.biorxiv.org/content/10.1101/2020.01.28.923532v1) for more details.
  
 ## Prerequisites
 - [SCIP v.6.0+](https://scip.zib.de/)
@@ -142,7 +142,7 @@ This is exactly the same as what described in [File format](#file-format).
 
 - `--replication` The number of replicates (integer)
 
-- `--seed` the seed (integer)for the random number generator which can be set to make the run deterministic (i.e., reproducible)
+- `--seed` the seed (integer) for the random number generator which can be set to make the run deterministic (i.e., reproducible)
 
 - `--output_dir` the directory in which the replicate files will be place
 
