@@ -97,10 +97,20 @@ Now we can refer to `$SCIPDIR/scip` as `$SCIPOPTDIR` and will use it in PySCIPOP
 ## PySCIPOpt
 
 We want to install PySCIPOpt for Python3. The best way is to use PyPi package manager.
-This should be done with the one following line.
+This should be done with the one following line or something resembling it.
 
 ```bash
 pip3 install pyscipopt
+```
+On some systems, pip3 is instead called pip and the line would be
+
+```bash
+pip install pyscipopt
+```
+
+In a shared computing environment (such as a server or compute farm), one wants to install pyscipopt in one's own user space and should use instead two extra flags as in
+```bash
+pip install pyscipopt --no-cache-dir --usser
 ```
 
 Now we can run Python3 to check if the installation works.
