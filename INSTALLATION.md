@@ -110,7 +110,7 @@ pip install pyscipopt
 
 In a shared computing environment (such as a server or compute farm), one wants to install pyscipopt in one's own user space and should use instead two extra flags as in
 ```bash
-pip install pyscipopt --no-cache-dir --usser
+pip install pyscipopt --no-cache-dir --user
 ```
 
 Now we can run Python3 to check if the installation works.
