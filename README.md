@@ -28,11 +28,21 @@ Our problem can be formulated as a generalized version of hitting set satisfying
 See our manuscript: [The Landscape of Precision Cancer Combination Therapy: A Single-Cell Perspective](https://www.biorxiv.org/content/10.1101/2020.01.28.923532v1) for more details.
  
 ## Prerequisites
-- [SCIP v.6.0+](https://scip.zib.de/)
-- [PySCIPOpt](https://github.com/SCIP-Interfaces/PySCIPOpt)
+MadHitter supports both SCIP and Gurobi. It suffices to have only one of them.
+- SCIP
+   - [SCIP v.6.0+](https://scip.zib.de/)
+   - [PySCIPOpt](https://github.com/SCIP-Interfaces/PySCIPOpt)
+- [Gurobi v.9.0.1+](https://www.gurobi.com/)
 - [Python3.6+](https://www.python.org/downloads/)
 
 ### Note on installation
+We provide instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
+b) the procedures for SCIP installation on UNIX systems are generic and do not 
+require a license-checking process. In contrast, a) Gurobi is better known and 
+b) the procedures for Gurobi installation on UNIX are more site-specific, 
+especially varying according to how the Gurobi license token is locally managed.
+We refer the user to the [Gurobi website](www.gurobi.com) for further guidance.
+
 - SCIP should be installed with CMake (see [this guide](https://scip.zib.de/doc/html/CMAKE.php)) to make sure that it is compatiable with PySCIPOpt (see also [PySCIPOpt Installation](https://github.com/SCIP-Interfaces/PySCIPOpt/blob/master/INSTALL.md)).
 - PySCIPOpt should be installed so that it is available to python3. In the other word, one should make sure that Python3's pip (pip3) should be used instead of Python2's pip.
 
@@ -94,9 +104,10 @@ python3 hitting_set.py \
 
 - `--silent` Silent turns off most of the intermediate output by SCIP.
 
-
-
-
+We support both SCIP and Gurobi. By default, SCIP is used. To switch to Gurobi, the following flag need to be specified.
+```bash
+--use_gurobi
+```
 ## File format
 
 While we allow some flexibility, we do assume that each data file we accept
