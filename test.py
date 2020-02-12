@@ -1,13 +1,26 @@
 from __future__ import print_function
-import unittest
 import hitting_set
 import pprint
-from pyscipopt import Model, quicksum
+import sys
+    
+from mh_util import *
+# from pyscipopt import Model, quicksum
 from patient import Patient
 from types import SimpleNamespace
 
+use_gurobi = False
+
+print(sys.argv)
+if len(sys.argv) >= 2 and sys.argv[1] == '--use_gurobi':
+    use_gurobi = True
+    sys.argv.pop(1)
+print(sys.argv)
+
+import unittest
+
 class TestLocalILP(unittest.TestCase):
     def setUp(self):
+        global use_gurobi
         args = {
             'data_column' : 1,
             'name_column' : 0,
@@ -18,9 +31,12 @@ class TestLocalILP(unittest.TestCase):
             'use_log_scale' : False,
             'use_lp' : False,
             'use_absolute_model' : False,
+            'use_gurobi' : use_gurobi,
             'silent' : True,
             'tumor_files' : [],
-            'non_tumor_files' : None
+            'non_tumor_files' : None,
+            'num_sol' : 10,
+            'num_local_sol' : 10
         }
         self.args = SimpleNamespace(**args)
 
@@ -30,30 +46,44 @@ class TestLocalILP(unittest.TestCase):
         patient = Patient(self.args, 0)
         patient.solve_local()
         
-        self.assertEqual(patient.model.getObjVal(), 3)
+        self.assertEqual(get_obj_val(patient.model), 3)
         answer = ['A', 'B', 'C']
+        if use_gurobi:
+            self.assertEqual(len(patient.get_solutions(self.args.num_sol)), 5)
+            self.assertIn(answer, patient.get_solutions(self.args.num_sol))
+        else:
+            self.assertSetEqual(set(answer), set(patient.get_solution()))
 
-        self.assertSetEqual(set(answer), set(patient.get_solution()))
+    
 
     def test_local_single_2(self):
         self.args.tumor_files = ['test/test_local_2.txt']
         patient = Patient(self.args, 0)
         patient.solve_local()
         
-        self.assertEqual(patient.model.getObjVal(), 4)
+        self.assertEqual(get_obj_val(patient.model), 4)
         answer = ['A', 'C', 'D', 'E']
 
-        self.assertSetEqual(set(answer), set(patient.get_solution()))
+        if use_gurobi:
+            self.assertEqual(len(patient.get_solutions(self.args.num_sol)), 3)
+            self.assertIn(answer, patient.get_solutions(self.args.num_sol))
+        else:
+            self.assertSetEqual(set(answer), set(patient.get_solution()))
         
     def test_local_single_3(self):
         self.args.tumor_files = ['test/test_local_3.txt']
         patient = Patient(self.args, 0)
         patient.solve_local()
         
-        self.assertEqual(patient.model.getObjVal(), 3)
+        self.assertEqual(get_obj_val(patient.model), 3)
         answer = ['A', 'E', 'F']
 
-        self.assertSetEqual(set(answer), set(patient.get_solution()))
+        if use_gurobi:
+            self.assertEqual(len(patient.get_solutions(self.args.num_sol)), 2)
+            self.assertIn(answer, patient.get_solutions(self.args.num_sol))
+        else:
+            self.assertSetEqual(set(answer), set(patient.get_solution()))
+
 
     def test_global_1(self):
         self.args.tumor_files = [
@@ -62,17 +92,17 @@ class TestLocalILP(unittest.TestCase):
                 'test/test_global_1_3.txt'
         ]
         model, global_vars, patients = hitting_set.solve_ILP(self.args)
-        constraints = model.getConss()
+
         global_ans = list(var_name for (var_name, var) in global_vars.items()
-                          if model.getVal(var) > 0.5)
+                          if get_val(model, var) > 0.5)
 
         # With alpha=0, [T1, T2, T3] should be selected
-        self.assertEqual(model.getObjVal(), 3)
+        self.assertEqual(get_obj_val(model), 3)
 
         self.args.alpha = 1
         model, global_vars, patients = hitting_set.solve_ILP(self.args)
         # With alpha=1, [A,B] should be selected
-        self.assertEqual(model.getObjVal(), 2)
+        self.assertEqual(get_obj_val(model), 2)
     
     def test_cover_r(self):
         self.args.tumor_files = [
@@ -127,10 +157,10 @@ class TestLocalILP(unittest.TestCase):
         model, global_vars, patients = hitting_set.solve_ILP(self.args)
 
         global_ans = list(var_name for (var_name, var) in global_vars.items()
-                          if model.getVal(var) > 0.5)
+                          if get_val(model,var) > 0.5)
 
         # both genes should be chosen.
-        self.assertEqual(model.getObjVal(), 2)
+        self.assertEqual(get_obj_val(model), 2)
 
     def test_testcase_2(self):
 
@@ -209,12 +239,12 @@ class TestLocalILP(unittest.TestCase):
         model, global_vars, patients = hitting_set.solve_ILP(self.args)
 
         # Answer should be 6 here
-        self.assertEqual(model.getObjVal(), 6)
+        self.assertEqual(get_obj_val(model), 6)
 
         # Raise ub to 0.5, and answer should be 3
         self.args.non_tumor_ub = 0.5
         model, global_vars, patients = hitting_set.solve_ILP(self.args)
-        self.assertEqual(model.getObjVal(), 3)
+        self.assertEqual(get_obj_val(model), 3)
 
     def test_greedy(self):
         self.args.tumor_files = ['test/test_local_3.txt']

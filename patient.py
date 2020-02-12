@@ -1,11 +1,11 @@
 # Module for managing data for one patient or sample.
 # Authors: Pattara Sukprasert, Saba Ahmadi
-from pyscipopt import Model, quicksum
 import sys
 import random
 import os
 from typing import Any, Dict, List, Optional, Tuple
 from argparse import Namespace
+from mh_util import *
 
 class Patient(object):
     def __read_file(self, source: str) -> Tuple[List[str], List[List[str]]]:
@@ -205,14 +205,13 @@ class Patient(object):
         Returns:
             model(Model): The solved model. 
         """
-
-        model = Model() # Create SCIP Model..
+        model = create_model(self.source)
 
         variables = {} # A set of all ILP variables.
-
+        
         # Add one variable to express selection of each gene.
         for (gene_name, _) in self.genes:
-            variables[gene_name] = model.addVar(gene_name, lb=0, ub=1, vtype=self.var_type)
+            variables[gene_name] = add_var(model, name=gene_name, lb=0, ub=1, vtype=self.var_type)
 
         # Create constraints for tumor cells.
         for cell_idx, cell_name in enumerate(self.tumor_cell_names):
@@ -225,15 +224,15 @@ class Patient(object):
             # Ignore unhitable cells.
             if gene_set:
                 # Add a variable of whether the tumor-cell is killed.
-                variables[cell_name] = model.addVar(cell_name, lb=0, ub=1, vtype=self.var_type)
+                variables[cell_name] = add_var(model, name=cell_name, lb=0, ub=1, vtype=self.var_type)
 
                 # Add constraint to say that at least one gene of the tabulated sets must be selected
                 # in order to kill the cell.
-                model.addCons(variables[cell_name] <= quicksum(gene for gene in gene_set))
+                add_const(model, variables[cell_name] <= quicksum(gene for gene in gene_set))
         
         # Add a constraint to say that at least tumor_lb * #hittable_cell must be killed
         # in order for the solution to be feasible.
-        model.addCons(quicksum(
+        add_const(model, quicksum(
             variables[cell_name] for cell_name in self.tumor_cell_names if cell_name in variables
             ) >= self.hittable_cell_size * self.args.tumor_lb)
 
@@ -243,27 +242,36 @@ class Patient(object):
                 
                 # Add a variable expressing whether the non-tumor cell is killed.
                 variables[normal_cell_name] \
-                    = model.addVar(normal_cell_name, lb=0, ub=1, vtype=self.var_type)
+                    = add_var(model,normal_cell_name, lb=0, ub=1, vtype=self.var_type)
                 
                 # A non-tumor cell is killed if one gene is selected.
                 for (gene_name, gene_value) in self.non_tumor_genes:
                     if gene_name in variables \
                     and self.covers(gene_value[non_tumor_cell_id], gene_name):
-                        model.addCons(variables[normal_cell_name] >= variables[gene_name])
+                        # model.addCons(variables[normal_cell_name] >= variables[gene_name])
+                        add_const(model, variables[normal_cell_name] >= variables[gene_name])
             
             # Add a constraint to enforce the ILP solution not to kill too many (non_tumor_ub * #non_tumor_cell) cells.
-            model.addCons(
+            add_const(model,
                 quicksum(variables[cell_name] for cell_name in self.non_tumor_cell_names)
                 <= self.args.non_tumor_ub * len(self.non_tumor_cell_names)
             )
 
         # Set objective: select as small number of genes as possible.
-        model.setObjective(quicksum(variables[gene_name] for gene_name, _ in self.genes))
-
-        model.hideOutput() # Hide output log for local solution.
-        model.optimize()
-        if model.getStatus() != 'optimal':
-            sys.exit(1) # Exit the program with error code 1 if the ILP has no feasible solution.
+        if self.args.use_gurobi:
+            set_solution_size(model, self.args.num_local_sol)
+            model.setObjective(quicksum(variables[gene_name] for gene_name, _ in self.genes))
+            model.optimize()
+            if (model.status != GRB.OPTIMAL):
+                sys.exit(1)
+            
+        else: 
+            model.setObjective(quicksum(variables[gene_name] for gene_name, _ in self.genes))
+            
+            model.hideOutput() # Hide output log for local solution.
+            model.optimize()
+            if model.getStatus() != 'optimal':
+                sys.exit(1) # Exit the program with error code 1 if the ILP has no feasible solution.
 
         self.variables = variables
         self.model = model
@@ -278,7 +286,7 @@ class Patient(object):
             model: The model storing the global ILP.
             global_var: The set of global variables indexed by names.
         """
-        assert isinstance(model, Model)
+
 
         # A set of variables related to this patient.
         local_vars = {}
@@ -288,14 +296,14 @@ class Patient(object):
         for (gene_name, _) in self.genes:
             # Add a gene variable for the global instance if this gene has not been presented.
             if gene_name not in global_var:
-                global_var[gene_name] = model.addVar(gene_name, lb=0, ub=1, vtype=self.var_type)
+                global_var[gene_name] = add_var(model, gene_name, lb=0, ub=1, vtype=self.var_type)
 
             # Add a gene variable for the local instance. 
-            local_vars[gene_name] = model.addVar('{}${}'.format(self.source, gene_name)
+            local_vars[gene_name] = add_var(model, '{}${}'.format(self.source, gene_name)
                                                  , lb=0, ub=1, vtype=self.var_type)
 
             # We can only select the gene locally if it is selected globally.
-            model.addCons(local_vars[gene_name] <= global_var[gene_name])
+            add_const(model, local_vars[gene_name] <= global_var[gene_name])
 
         # Add constraints for tumor cells.
         for cell_idx, cell_name in enumerate(self.tumor_cell_names):
@@ -309,47 +317,84 @@ class Patient(object):
             # Ignore unhittable cells.
             if gene_set:
                 # Create a variable representing if the cell is hit.
-                local_vars[cell_name] = model.addVar(cell_name, lb=0, ub=1, vtype=self.var_type)
+                local_vars[cell_name] = add_var(model, cell_name, lb=0, ub=1, vtype=self.var_type)
                 # The cell is hit if at least one gene from the collected set is selected.
-                model.addCons(local_vars[cell_name] <= quicksum(gene for gene in gene_set))
+                add_const(model, local_vars[cell_name] <= quicksum(gene for gene in gene_set))
         
         # The number of tumor cells hit should be at least tumor_lb * #hittable_cell.
-        model.addCons(quicksum(
+        add_const(model, quicksum(
             local_vars[cell_name] for cell_name in self.tumor_cell_names if cell_name in local_vars
             ) >= self.hittable_cell_size * self.args.tumor_lb)
 
         # In the absolute model, we want a hitting set of size at most alpha.
         if self.args.use_absolute_model:
-            model.addCons(quicksum(
+            add_const(model, quicksum(
                 gene_var for (name, gene_var) in local_vars.items() if name in gene_list)
                           <= self.args.alpha)
 
         # Otherwise, we want a hitting set of size close to the optimal of the local instance
         # allowing alpha additive error.
         else:
-            model.addCons(quicksum(
+            add_const(model, quicksum(
                 gene_var for (name, gene_var) in local_vars.items() if name in gene_list)
-                          <= self.model.getObjVal() + self.args.alpha)
+                          <= get_obj_val(self.model) + self.args.alpha)
 
         # Add constraints for maximum number of non-tumor cells targeted
         if self.non_tumor is not None:
             for non_tumor_cell_id, normal_cell_name in enumerate(self.non_tumor_cell_names):
                 # Create a variable on whether this non-tumor cell is hit.
                 name = '{}${}'.format(self.non_tumor, normal_cell_name)
-                local_vars[normal_cell_name] = model.addVar(name, lb=0, ub=1, vtype=self.var_type)
+                local_vars[normal_cell_name] = add_var(model, name, lb=0, ub=1, vtype=self.var_type)
 
                 for (gene_name, gene_value) in self.non_tumor_genes:
                     if gene_name in local_vars \
                     and self.covers(gene_value[non_tumor_cell_id], gene_name):
-                        model.addCons(local_vars[normal_cell_name] >= local_vars[gene_name])
+                        add_const(model, local_vars[normal_cell_name] >= local_vars[gene_name])
 
             # Number of non-tumor cells hit should be at most non_tumor_ub * #non_tumor_cell.
-            model.addCons(
+            add_const(model, 
                 quicksum(local_vars[cell_name] for cell_name in self.non_tumor_cell_names)
                 <= self.args.non_tumor_ub * len(self.non_tumor_cell_names)
             )
 
         self.local_vars = local_vars
+
+    def get_solutions(self, count:int = 1) -> Optional[List[List[str]]]:
+        """ Identify the variables used for the local ILP for one patient.
+        
+        Returns:
+            a list of variables if the local ILP is created and solved.
+            In case we use Gurobi, if there are multiple best solutions, return
+            at most 10 optimal solutions.
+            None otherwise.
+        """
+        if self.model is not None:
+            if self.args.use_gurobi:
+                select_solution(self.model, 0)
+                obj_val = get_obj_val(self.model)
+                sols = []
+                for i in range (count):
+                    select_solution(self.model, i)
+                    # self.model.setParam(GRB.param.SolutionNumber, i)
+
+                    if (get_obj_val(self.model) > obj_val):
+                        break
+                    
+                    var_used = []
+                    for (gene_name, _) in self.genes:
+                        if get_val(self.model, self.variables[gene_name]) > 0.5:
+                            var_used.append(gene_name)
+                    sols.append(var_used)
+                return sols
+            else:
+                var_used = []
+                for (gene_name, _) in self.genes:
+                    if get_val(self.model, self.variables[gene_name]) > 0.5:
+                        var_used.append(gene_name)
+                return [var_used]
+
+        return None
+
 
     def get_solution(self) -> Optional[List[str]]:
         """ Identify the variables used for the local ILP for one patient.
@@ -357,16 +402,9 @@ class Patient(object):
         Returns:
             a list of variables if the local ILP is created and solved. None otherwise.
         """
-        if self.model is not None:
-            var_used = []
-            for (gene_name, _) in self.genes:
-            # for (var_name, var) in self.variables.items():
-                # somehow it does not store binary.
-                if self.model.getVal(self.variables[gene_name]) > 0.5:
-                    var_used.append(gene_name)
-            return var_used
-
-        return None
+        z = self.get_solutions()
+        if z is not None:
+            return z[0]
 
     def greedy(self, pair_list: Optional[List] = None) -> List[Dict[str, set]]:
         """ Find a hitting set using greedy algorithm.
@@ -453,21 +491,22 @@ class Patient(object):
 
         return solutions
 
-
-
-
     def __str__(self) -> str:
         """ Return the string representation of the patient.
             If the local ILP has been solved, then the return string would contain information
             of the ILP solution. Otherwise, it returns the source file used to create this object.
         """
         if self.model is not None:
-            return_str = "local {}: Obj = {}".format(os.path.basename(self.source), self.model.getObjVal())
+            if self.args.use_gurobi:
+                return_str = "local {}: Obj = {}".format(os.path.basename(self.source), self.model.objVal)
+            else:
+                return_str = "local {}: Obj = {}".format(os.path.basename(self.source), self.model.getObjVal())
             var_used = []
             for (gene_name, _) in self.genes:
 
                 # Binary comparison can fail in some cases, so just use threshold function to see if a variable is selected.
-                if self.model.getVal(self.variables[gene_name]) > 0.5:
+                if (self.args.use_gurobi and self.variables[gene_name].Xn > 0.5) or \
+                   (not self.args.use_gurobi and self.model.getVal(self.variables[gene_name]) > 0.5):
                     var_used.append(gene_name)
 
             return_str = return_str + '\n' + '[{}]'.format(' '.join(var_used))
