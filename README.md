@@ -28,12 +28,14 @@ Our problem can be formulated as a generalized version of hitting set satisfying
 See our manuscript: [The Landscape of Precision Cancer Combination Therapy: A Single-Cell Perspective](https://www.biorxiv.org/content/10.1101/2020.01.28.923532v1) for more details.
  
 ## Prerequisites
-MadHitter supports both SCIP and Gurobi. It suffices to have only one of them.
+MadHitter relies on the packages SCIP and Gurobi to solve integer linear programs. It suffices to have only one of them.
 - SCIP
    - [SCIP v.6.0+](https://scip.zib.de/)
    - [PySCIPOpt](https://github.com/SCIP-Interfaces/PySCIPOpt)
 - [Gurobi v.9.0.1+](https://www.gurobi.com/)
 - [Python3.6+](https://www.python.org/downloads/)
+
+For licensing reasons, we did the implementation using SCIP first and the impleementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi.
 
 ### Note on installation
 We provide instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
@@ -41,7 +43,7 @@ b) the procedures for SCIP installation on UNIX systems are generic and do not
 require a license-checking process. In contrast, a) Gurobi is better known and 
 b) the procedures for Gurobi installation on UNIX are more site-specific, 
 especially varying according to how the Gurobi license token is locally managed.
-We refer the user to the [Gurobi website](www.gurobi.com) for further guidance.
+We refer the user to the [Gurobi website](www.gurobi.com) for further guidance on Gurobi licensing and installation.
 
 - SCIP should be installed with CMake (see [this guide](https://scip.zib.de/doc/html/CMAKE.php)) to make sure that it is compatiable with PySCIPOpt (see also [PySCIPOpt Installation](https://github.com/SCIP-Interfaces/PySCIPOpt/blob/master/INSTALL.md)).
 - PySCIPOpt should be installed so that it is available to python3. In the other word, one should make sure that Python3's pip (pip3) should be used instead of Python2's pip.
@@ -95,7 +97,7 @@ python3 hitting_set.py \
    -r=3 --alpha=1
 ```
 
-- `--use_log_scale` In some cases, the data files might represent the expression level using log-scale values. This flag handles that.
+- `--use_log_scale` In some cases, the data files might represent the expression level using values on a log-2 scale, which is conventional in studies of gene expression. This flag handles that.
 
 - `--use_absolute_model` This flag flips an alternate model where we want a set of genes that have local solutions of size at most *ALPHA*.
 (so the `--alpha` flag will not reflect the additive error anymore.)
@@ -104,10 +106,18 @@ python3 hitting_set.py \
 
 - `--silent` Silent turns off most of the intermediate output by SCIP.
 
-We support both SCIP and Gurobi. By default, SCIP is used. To switch to Gurobi, the following flag need to be specified.
-```bash
+We support both SCIP and Gurobi to solve the ILPs. By default, SCIP is used. To switch to Gurobi, the following flag needs to be specified.
+
 --use_gurobi
-```
+
+as part of the command to run hitting_set.py
+
+When using Gurobi, it is possible to get multiple (equally good) optimal solutions, while SCIP provides only one optimal solution, breaking ties arbitrarily. To get multiple optimal solutions in conjunction with --use_gurobi, if they exist, add the the flag
+
+--num_sol <n>
+ 
+ where <n> represents an integer upper bound on the number of optimal solutions reported. If the number of optimal solutions reported is fewer than n, then one ccan be sure that all optimal solutions have been reported.
+
 ## File format
 
 While we allow some flexibility, we do assume that each data file we accept
@@ -180,8 +190,8 @@ the number of cells is less than `y`, then `x` will be that smaller number.
 
 ## Bash scripts
 
-To extract more statistical values out of our results, postprocessing is often needed.
-In the directoy `bash_script/`, we put some of scripts used in our processing there as an example.
-These files are usually one-off files, so we do not take much time into optimizing their readability.
+To extract more statistical value from our results, postprocessing is often needed.
+In the directoy `bash_script/`, we put some of the scripts used in our processing there as an example.
+These files are usually one-off files, so we did not put much time into optimizing their readability.
 Many experiments for our paper were done on NIH's Biowulf computing system, for which we had to modify the
-bash scripts slightly to use some biowulf-specific syntax. 
+bash scripts slightly to use some Biowulf-specific syntax. 
