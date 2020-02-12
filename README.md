@@ -129,7 +129,7 @@ One example of the data file is provided below.
 |----------|-----------|----------------|:------------:|:------------:|:-----------:|
 | gene001  | GPC3      | protein\_coding | 0            | 11           | 13          |
 | gene002  | EPHA2     | pretein\_coding | 1            | 2            | 3           |
-| gene002  | EPHA2     | pretein\_coding | 1            | 2            | 3           |
+| gene003  | EPHB4     | pretein\_coding | 1            | 2            | 3           |
 
 
 In this table, notice that we might want to use only the second column as our identifier.
