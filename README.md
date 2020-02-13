@@ -35,7 +35,7 @@ MadHitter relies on the packages SCIP and Gurobi to solve integer linear program
 - [Gurobi v.9.0.1+](https://www.gurobi.com/)
 - [Python3.6+](https://www.python.org/downloads/)
 
-For licensing reasons, we did the implementation using SCIP first and the impleementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi.
+For licensing reasons, we did the implementation using SCIP first and the implementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi.
 
 ### Note on installation
 We provide instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
@@ -106,17 +106,9 @@ python3 hitting_set.py \
 
 - `--silent` Silent turns off most of the intermediate output by SCIP.
 
-We support both SCIP and Gurobi to solve the ILPs. By default, SCIP is used. To switch to Gurobi, the following flag needs to be specified.
+We support both SCIP and Gurobi to solve the ILPs. By default, SCIP is used. To switch to Gurobi, the flag `--use_gurobi` needs to be specified as part of the command to run hitting_set.py
 
---use_gurobi
-
-as part of the command to run hitting_set.py
-
-When using Gurobi, it is possible to get multiple (equally good) optimal solutions, while SCIP provides only one optimal solution, breaking ties arbitrarily. To get multiple optimal solutions in conjunction with --use_gurobi, if they exist, add the the flag
-
---num_sol <n>
- 
- where <n> represents an integer upper bound on the number of optimal solutions reported. If the number of optimal solutions reported is fewer than n, then one ccan be sure that all optimal solutions have been reported.
+When using Gurobi, it is possible to get multiple (equally good) optimal solutions, while SCIP provides only one optimal solution, breaking ties arbitrarily. To get multiple optimal solutions in conjunction with --use_gurobi, if they exist, add the the flag `--num_sol <n>` where `<n>` represents an integer upper bound on the number of optimal solutions reported. If the number of optimal solutions reported is fewer than n, then one can be sure that all optimal solutions have been reported.
 
 ## File format
 
