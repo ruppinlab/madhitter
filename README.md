@@ -39,6 +39,8 @@ The version choices for SCIP and PySCIPOpt are linked. Use a PySCIPTOpt version 
 
 For licensing reasons, we did the implementation using SCIP first and the implementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi.
 
+On systems where python3.6+ is available by default, no python installation. After SCIP, PySCIPOpt, Gurobi, and Python (on which MadHitter depends) are installed, the MadHitter can be used. No additional steps, such s compiling a program, are needed.
+
 ### Note on installation
 We provide instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
 b) the procedures for SCIP installation on UNIX systems are generic and do not 
@@ -133,7 +135,7 @@ is the fourth column. Hence, we use the following flags.
 > `--data_column 3 --name_column 1`
 
 As a result, we discard the columns *gene id / gene type* and use *gene name*
-as our genes' identifiers.
+as our genes' identifiers. The column numbers are zero-based.
 
 ## Sampling process
 
