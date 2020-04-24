@@ -35,6 +35,8 @@ MadHitter relies on the packages SCIP and Gurobi to solve integer linear program
 - [Gurobi v.9.0.1+](https://www.gurobi.com/)
 - [Python3.6+](https://www.python.org/downloads/)
 
+The version choices for SCIP and PySCIPOpt are linked. Use a PySCIPTOpt version starting with 2 together with a SCIP version starting with 6; use a PySCIPOpt version starting with 3 together with a SCIP version starting with 7 or higher.
+
 For licensing reasons, we did the implementation using SCIP first and the implementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi.
 
 ### Note on installation
