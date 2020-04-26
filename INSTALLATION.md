@@ -71,7 +71,7 @@ Now we are going to config the installation directory.
 
 ```bash
 $ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=$SCIPDIR/scip
+$ cmake -DCMAKE_INSTALL_PREFIX=$SCIPDIR/scip ..
 ```
 
 We then build and install SCIP.
