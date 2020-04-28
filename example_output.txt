@@ -1,0 +1,67 @@
+presolving:
+(round 1, fast)       1974 del vars, 1231 del conss, 0 add conss, 834 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 51 clqs
+(round 2, fast)       2119 del vars, 2029 del conss, 0 add conss, 834 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 8 clqs
+(round 3, fast)       2150 del vars, 2038 del conss, 0 add conss, 834 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
+ 2152 deleted vars, 2038 deleted constraints, 0 added constraints, 834 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolved problem has 0 variables (0 bin, 0 int, 0 impl, 0 cont) and 0 constraints
+transformed objective value is always integral (scale: 1)
+Presolving Time: 0.01
+
+ time | node  | left  |LP iter|LP it/n| mem |mdpt |frac |vars |cons |cols |rows |cuts |confs|strbr|  dualbound   | primalbound  |  gap   
+t 0.0s|     1 |     0 |     0 |     - |9789k|   0 |   - |   0 |   0 |   0 |   0 |   0 |   0 |   0 | 2.500000e+01 | 2.500000e+01 |   0.00%
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 0.01
+Solving Nodes      : 1
+Primal Bound       : +2.50000000000000e+01 (1 solutions)
+Dual Bound         : +2.50000000000000e+01
+Gap                : 0.00 %
+local Patient1_cancer_cells_thresh1_38genes.txt: Obj = 6.0
+[EPHA2 FGFR3 EGFR GPC3 FGFR1 APP]
+Tumor cell(hittable/total): 61/62
+Non Tumor cell: 6
+local Patient2_cancer_cells_thresh1_38genes.txt: Obj = 9.0
+[IL6R VIPR1 EGFR MET GPC3 CD44 FOLH1 FGFR2 CDH1]
+Tumor cell(hittable/total): 101/106
+Non Tumor cell: 30
+local Patient3_cancer_cells_thresh1_38genes.txt: Obj = 8.0
+[EPHA2 MUC1 KDR EGFR MET NRP1 CDH1 ERBB2]
+Tumor cell(hittable/total): 341/465
+Non Tumor cell: 171
+local Patient4_cancer_cells_thresh1_38genes.txt: Obj = 14.0
+[EPHA2 CR2 FGFR4 EPHB4 MET CD274 CD44 PTPRJ IL10RA ANPEP CDH1 ERBB2 CDH2 APP]
+Tumor cell(hittable/total): 117/743
+Non Tumor cell: 48
+local Patient5_cancer_cells_thresh1_38genes.txt: Obj = 9.0
+[EPHA2 IL6R MUC1 FGFR3 EGFR MET CD44 CDH1 ERBB2]
+Tumor cell(hittable/total): 767/1019
+Non Tumor cell: 257
+=====Solution #0=====
+The optimal global hitting set is 25.0
+The selected genes are: [EPHA2 IL6R MUC1 CR2 VIPR1 FGFR3 KDR FGFR4 EGFR EPHB4 MET GPC3 FGFR1 CD274 CD44 PTPRJ FOLH1 IL10RA NRP1 FGFR2 ANPEP CDH1 ERBB2 CDH2 APP]
+The selected genes for data/E-MTAB-6149/Patient1_cancer_cells_thresh1_38genes.txt: [EPHA2 FGFR3 EGFR GPC3 FGFR1 APP]
+The selected genes for data/E-MTAB-6149/Patient2_cancer_cells_thresh1_38genes.txt: [IL6R VIPR1 EGFR MET GPC3 CD44 FOLH1 FGFR2 CDH1]
+The selected genes for data/E-MTAB-6149/Patient3_cancer_cells_thresh1_38genes.txt: [EPHA2 MUC1 KDR EGFR MET NRP1 CDH1 ERBB2]
+The selected genes for data/E-MTAB-6149/Patient4_cancer_cells_thresh1_38genes.txt: [EPHA2 CR2 FGFR4 EPHB4 MET CD274 CD44 PTPRJ IL10RA ANPEP CDH1 ERBB2 CDH2 APP]
+The selected genes for data/E-MTAB-6149/Patient5_cancer_cells_thresh1_38genes.txt: [EPHA2 IL6R MUC1 FGFR3 EGFR MET CD44 CDH1 ERBB2]
+Size of global hitting set is: 25
+The percentage of non-cancer cells killed/targeted by the optimal solution for data/E-MTAB-6149/Patient1_cancer_cells_thresh1_38genes.txt: 0.0
+The percentage of non-cancer cells killed/targeted by the optimal solution for data/E-MTAB-6149/Patient2_cancer_cells_thresh1_38genes.txt: 0.16666666666666666
+The percentage of non-cancer cells killed/targeted by the optimal solution for data/E-MTAB-6149/Patient3_cancer_cells_thresh1_38genes.txt: 0.14619883040935672
+The percentage of non-cancer cells killed/targeted by the optimal solution for data/E-MTAB-6149/Patient4_cancer_cells_thresh1_38genes.txt: 0.2916666666666667
+The percentage of non-cancer cells killed/targeted by the optimal solution for data/E-MTAB-6149/Patient5_cancer_cells_thresh1_38genes.txt: 0.2723735408560311
+The average percentage of non-cancer cells killed/targeted by the optimal solution across all the patients 0.17538114091974424
+Size of the hitting set for data/E-MTAB-6149/Patient1_cancer_cells_thresh1_38genes.txt: 6
+Size of the hitting set for data/E-MTAB-6149/Patient2_cancer_cells_thresh1_38genes.txt: 9
+Size of the hitting set for data/E-MTAB-6149/Patient3_cancer_cells_thresh1_38genes.txt: 8
+Size of the hitting set for data/E-MTAB-6149/Patient4_cancer_cells_thresh1_38genes.txt: 14
+Size of the hitting set for data/E-MTAB-6149/Patient5_cancer_cells_thresh1_38genes.txt: 9
+The average hitting set across all the patients 9.2
+The number of uncovered cancer cells plus size of the hitting set for data/E-MTAB-6149/Patient1_cancer_cells_thresh1_38genes.txt: 7
+The number of uncovered cancer cells plus size of the hitting set for data/E-MTAB-6149/Patient2_cancer_cells_thresh1_38genes.txt: 14
+The number of uncovered cancer cells plus size of the hitting set for data/E-MTAB-6149/Patient3_cancer_cells_thresh1_38genes.txt: 132
+The number of uncovered cancer cells plus size of the hitting set for data/E-MTAB-6149/Patient4_cancer_cells_thresh1_38genes.txt: 640
+The number of uncovered cancer cells plus size of the hitting set for data/E-MTAB-6149/Patient5_cancer_cells_thresh1_38genes.txt: 261
+The average of the number of uncovered cancer cells plus size of the hitting set across all the patients 210.8

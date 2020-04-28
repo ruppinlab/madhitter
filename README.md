@@ -96,9 +96,9 @@ One real example command is provided below.
 
 ```bash
 python3 hitting_set.py \
-   --tumor_files data/data set_2/GSE118389/PT*cell* \
-   --non_tumor_files data/data set_2/GSE118389/PT*normal* \
-   -r=3 --alpha=1
+   --tumor_files data/E-MTAB-6149/*_cancer_*38* \
+   --non_tumor_files data/E-MTAB-6149/*_noncancer_*38* \
+   -r=1.5 --alpha=1 --data_column=2
 ```
 
 - `--use_log_scale` In some cases, the data files might represent the expression level using values on a log-2 scale, which is conventional in studies of gene expression. This flag handles that.
@@ -113,6 +113,23 @@ python3 hitting_set.py \
 We support both SCIP and Gurobi to solve the ILPs. By default, SCIP is used. To switch to Gurobi, the flag `--use_gurobi` needs to be specified as part of the command to run hitting_set.py
 
 When using Gurobi, it is possible to get multiple (equally good) optimal solutions, while SCIP provides only one optimal solution, breaking ties arbitrarily. To get multiple optimal solutions in conjunction with --use_gurobi, if they exist, add the the flag `--num_sol <n>` where `<n>` represents an integer upper bound on the number of optimal solutions reported. If the number of optimal solutions reported is fewer than n, then one can be sure that all optimal solutions have been reported.
+
+### Example Output
+The command above, if run successfully, should produce a global solution of size 25.
+The output produced from a run can be found [here](example_output.txt).
+In particular, we can look for beginning lines of non-SCIP (or Gurobi) output, which should be similar to the following.
+
+```bash
+...
+=====Solution #0=====
+The optimal global hitting set is 25.0
+The selected genes are: [EPHA2 IL6R MUC1 CR2 VIPR1 FGFR3 KDR FGFR4 EGFR EPHB4 MET GPC3 FGFR1 CD274 CD44 PTPRJ FOLH1 IL10RA NRP1 FGFR2 ANPEP CDH1 ERBB2 CDH2 APP]
+...
+```
+
+For each solution, we output the global hitting set and the assignment from this set to each patient. We then produce a few other statistical properties.
+These properties can be derived from the set. For example, we might be interested in the percentage of non-tumor cells killed in comparison to the non-tumor cells
+hittable with any gene. Such information can be found in the lines starting with `The percentage of non-cancer cells killed/targeted by the optimal solution...`.
 
 ## File format
 
@@ -167,8 +184,8 @@ This is exactly the same as what described in [File format](#file-format).
 One example can be found below.
 ```bash
 python3 sample_column.py \
-   --tumor_files data/data set_2/GSE118389/PT*cell* \
-   --non_tumor_files data/data set_2/GSE118389/PT*normal* \
+   --tumor_files data/E-MTAB-6149/*_cancer_*1269* \
+   --non_tumor_files data/E-MTAB-6149/*_noncancer_*1269* \
    --num_cells 250 --replication 20 --seed 175 --output_dir data
 ```
 
