@@ -49,6 +49,24 @@ b) the procedures for Gurobi installation on UNIX are more site-specific,
 especially varying according to how the Gurobi license token is locally managed.
 We refer the user to the [Gurobi website](www.gurobi.com) for further guidance on Gurobi licensing and installation.
 
+#### Installing with Conda
+Conda is an open-source package management system and environment management system.
+We can utilize conda to install SCIP and PySCIPOpt. For those who are not familiar with conda,
+[here is an introductory video.](https://www.youtube.com/watch?v=YJC6ldI3hWk)
+
+If you are already familiar with conda, then the following command would
+install SCIP (v7.0.2) and PySCIPOpt (v3.1.4) for you. 
+
+
+```bash
+$ conda install -c conda-forge pyscipopt
+```
+
+The default versions of the two packages are subject to change, so we cannot guarantee if this will always work,
+but if it is, then this can simplify the process by a lot.
+
+#### Vanilla installation
+
 - SCIP should be installed with CMake (see [this guide](https://scip.zib.de/doc/html/CMAKE.php)) to make sure that it is compatiable with PySCIPOpt (see also [PySCIPOpt Installation](https://github.com/SCIP-Interfaces/PySCIPOpt/blob/master/INSTALL.md)).
 - PySCIPOpt should be installed so that it is available to python3. In the other word, one should make sure that Python3's pip (pip3) should be used instead of Python2's pip.
 
