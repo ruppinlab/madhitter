@@ -1,5 +1,5 @@
 # MadHitter
-Authors: Pattara Sukprasert and Saba Ahmadi with guidance from Alejandro Schaffer, Samir Khuller, and Eytan Ruppin
+Authors: Pattara Sukprasert and Saba Ahmadi and Rahulsimham Vegesna with guidance from Alejandro Schaffer, Samir Khuller, and Eytan Ruppin
 
 MadHitter is a software package designed to find optimal combinations of gene targets for personalized cancer treatments.
 The program works by modelling the instances into integer linear programs and relies on 
