@@ -62,7 +62,16 @@ install SCIP (v7.0.2) and PySCIPOpt (v3.1.4) for you.
 $ conda install -c conda-forge pyscipopt
 ```
 
-The default versions of the two packages are subject to change, so we cannot guarantee if this will always work,
+The following command would install Gurobi (v9.1.2) and gurobipy for you. However, a Gurobi license is still required and here is the link to the [quick start guide to help you with the license](https://www.gurobi.com/documentation/quickstart.html).
+
+
+```bash
+$ conda config --add channels http://conda.anaconda.org/gurobi
+$ conda install gurobi
+```
+
+
+The default versions of the packages are subject to change, so we cannot guarantee if this will always work,
 but if it is, then this can simplify the process by a lot.
 
 #### Vanilla installation
