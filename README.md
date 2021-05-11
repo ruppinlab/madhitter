@@ -37,12 +37,12 @@ MadHitter relies on the packages SCIP and Gurobi to solve integer linear program
 
 The version choices for SCIP and PySCIPOpt are linked. Use a PySCIPTOpt version starting with 2 together with a SCIP version starting with 6; use a PySCIPOpt version starting with 3 together with a SCIP version starting with 7 or higher.
 
-For licensing reasons, we did the implementation using SCIP first and the implementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi.
+For licensing reasons, we did the implementation using SCIP first and the implementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi. 
 
-On systems where python3.6+ is available by default, no python installation. After SCIP, PySCIPOpt, Gurobi, and Python (on which MadHitter depends) are installed, the MadHitter can be used. No additional steps, such s compiling a program, are needed.
+On systems where python3.6+ is available by default, no python installation is needed. After SCIP, PySCIPOpt, Gurobi, and Python (on which MadHitter depends) are installed, the MadHitter can be used. No additional steps, such s compiling a program, are needed.
 
 ### Note on installation
-We provide instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
+We provide additional instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
 b) the procedures for SCIP installation on UNIX systems are generic and do not 
 require a license-checking process. In contrast, a) Gurobi is better known and 
 b) the procedures for Gurobi installation on UNIX are more site-specific, 
@@ -51,9 +51,10 @@ We refer the user to the [Gurobi website](www.gurobi.com) for further guidance o
 
 #### Installing with Conda
 Conda is an open-source package management system and environment management system.
-We can utilize conda to install SCIP and PySCIPOpt. For those who are not familiar with conda,
+We can utilize conda to install SCIP and Gurobi. For those who are not familiar with conda,
 [here is an introductory video.](https://www.youtube.com/watch?v=YJC6ldI3hWk)
 
+##### SCIP
 If you are already familiar with conda, then the following command would
 install SCIP (v7.0.2) and PySCIPOpt (v3.1.4) for you. 
 
@@ -61,18 +62,21 @@ install SCIP (v7.0.2) and PySCIPOpt (v3.1.4) for you.
 ```bash
 $ conda install -c conda-forge pyscipopt
 ```
+The default versions of the packages are subject to change, so we cannot guarantee if this will always work,
+but if it is, then this can simplify the process by a lot.
 
-The following command would install Gurobi (v9.1.2) and gurobipy for you. However, a Gurobi license is still required and here is the link to the [quick start guide to help you with the license](https://www.gurobi.com/documentation/quickstart.html).
+##### Gurobi
 
+The Gurobi ILP solver requires a license. There are several types of license; the license with which we use MadHitter and Gurobi is enforced by a token server that recognizes approved userids. The following commands would install Gurobi ( current version v9.1.2) and gurobipy. 
 
 ```bash
 $ conda config --add channels http://conda.anaconda.org/gurobi
 $ conda install gurobi
 ```
+You will still need to obtain a Gurobi license and here is the link to the [quick start guide to help you with the license](https://www.gurobi.com/documentation/quickstart.html). 
 
+MadHitter connects to Gurobi by importing gurobipy when the flag –use_gurobi is specified.
 
-The default versions of the packages are subject to change, so we cannot guarantee if this will always work,
-but if it is, then this can simplify the process by a lot.
 
 #### Vanilla installation
 
