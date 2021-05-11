@@ -103,6 +103,7 @@ $ python3
 Alternatively, one can run our test file, which should be a good indicator that every library needed has been correctly installed.
 ```bash
 python3 test.py
+```
 
 ## Getting data sets
 Since the data sets can be larger than Github's limit, we do not upload all of our data sets here.

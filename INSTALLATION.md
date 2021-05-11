@@ -113,4 +113,3 @@ In a shared computing environment (such as a server or compute farm), one wants 
 pip install pyscipopt --no-cache-dir --user
 ```
 
-```
