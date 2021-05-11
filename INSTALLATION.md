@@ -113,18 +113,4 @@ In a shared computing environment (such as a server or compute farm), one wants 
 pip install pyscipopt --no-cache-dir --user
 ```
 
-Now we can run Python3 to check if the installation works.
-
-```bash
-$ python3
-```
-```python
->>> import pyscipopt
->>> pyscipopt
-<module 'pyscipopt' from '/home/.local/lib/python3.6/site-packages/pyscipopt/__init__.py'>
-```
-
-Alternatively, one can run our test file, which should be a good indicator that every library needed has been correctly installed.
-```bash
-python3 test.py
 ```

@@ -41,20 +41,18 @@ For licensing reasons, we did the implementation using SCIP first and the implem
 
 On systems where python3.6+ is available by default, no python installation is needed. After SCIP, PySCIPOpt, Gurobi, and Python (on which MadHitter depends) are installed, the MadHitter can be used. No additional steps, such s compiling a program, are needed.
 
-### Note on installation
-We provide additional instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
-b) the procedures for SCIP installation on UNIX systems are generic and do not 
-require a license-checking process. In contrast, a) Gurobi is better known and 
-b) the procedures for Gurobi installation on UNIX are more site-specific, 
-especially varying according to how the Gurobi license token is locally managed.
-We refer the user to the [Gurobi website](www.gurobi.com) for further guidance on Gurobi licensing and installation.
+## Note on installation
+There are multiple ways to install our packages. Here we give a short brief of how
+to install MadHitter via conda (a package & environment management system).
+We also have a separate [INSTALLATION.md](INSTALLATION.md) for those who want to install
+SCIP and PySCIPOpt as standalone packages.
 
-#### Installing with Conda
+### Installing with Conda
 Conda is an open-source package management system and environment management system.
 We can utilize conda to install SCIP and Gurobi. For those who are not familiar with conda,
 [here is an introductory video.](https://www.youtube.com/watch?v=YJC6ldI3hWk)
 
-##### SCIP
+#### SCIP
 If you are already familiar with conda, then the following command would
 install SCIP (v7.0.2) and PySCIPOpt (v3.1.4) for you. 
 
@@ -65,25 +63,46 @@ $ conda install -c conda-forge pyscipopt
 The default versions of the packages are subject to change, so we cannot guarantee if this will always work,
 but if it is, then this can simplify the process by a lot.
 
-##### Gurobi
+#### Gurobi
 
-The Gurobi ILP solver requires a license. There are several types of license; the license with which we use MadHitter and Gurobi is enforced by a token server that recognizes approved userids. The following commands would install Gurobi ( current version v9.1.2) and gurobipy. 
+The Gurobi ILP solver requires a license. There are several types of license; the license with which we use MadHitter and Gurobi is enforced by a token server that recognizes approved userids. The following commands would install Gurobi (current version v9.1.2) and gurobipy. 
 
 ```bash
-$ conda config --add channels http://conda.anaconda.org/gurobi
-$ conda install gurobi
+$ conda install -c gurobi gurobi
 ```
 You will still need to obtain a Gurobi license and here is the link to the [quick start guide to help you with the license](https://www.gurobi.com/documentation/quickstart.html). 
 
 MadHitter connects to Gurobi by importing gurobipy when the flag –use_gurobi is specified.
 
 
-#### Vanilla installation
+### Vanilla installation
+We provide additional instructions for installing SCIP because a) SCIP seems to be less known than Gurobi and 
+b) the procedures for SCIP installation on UNIX systems are generic and do not 
+require a license-checking process. In contrast, a) Gurobi is better known and 
+b) the procedures for Gurobi installation on UNIX are more site-specific, 
+especially varying according to how the Gurobi license token is locally managed.
+We refer the user to the [Gurobi website](www.gurobi.com) for further guidance on Gurobi licensing and installation.
 
 - SCIP should be installed with CMake (see [this guide](https://scip.zib.de/doc/html/CMAKE.php)) to make sure that it is compatiable with PySCIPOpt (see also [PySCIPOpt Installation](https://github.com/SCIP-Interfaces/PySCIPOpt/blob/master/INSTALL.md)).
 - PySCIPOpt should be installed so that it is available to python3. In the other word, one should make sure that Python3's pip (pip3) should be used instead of Python2's pip.
 
 Please see our [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
+
+## Test the installation
+Now we can run Python3 to check if the installation works.
+
+```bash
+$ python3
+```
+```python
+>>> import pyscipopt
+>>> pyscipopt
+<module 'pyscipopt' from '/home/.local/lib/python3.6/site-packages/pyscipopt/__init__.py'>
+```
+
+Alternatively, one can run our test file, which should be a good indicator that every library needed has been correctly installed.
+```bash
+python3 test.py
 
 ## Getting data sets
 Since the data sets can be larger than Github's limit, we do not upload all of our data sets here.
