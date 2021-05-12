@@ -54,7 +54,7 @@ We can utilize conda to install SCIP and Gurobi. For those who are not familiar 
 
 #### SCIP
 If you are already familiar with conda, then the following command would
-install SCIP (v7.0.2) and PySCIPOpt (v3.1.4) for you. 
+install SCIP (most recently tested with v7.0.2) and PySCIPOpt (most recently tested with v3.1.4) for you. 
 
 
 ```bash
