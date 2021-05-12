@@ -9,9 +9,9 @@ This guide is a walkthrough for installing prerequisites of MadHitter.
 
 ## SCIP
 
-MadHitter relies on [SCIP](https://scip.zib.de/) (Solving Constraint Integer Programs) to solve
+MadHitter relies on [SCIP](https://scip.zib.de/) (Solving Constraint Integer Programs) or Gurobi (www.gurobi.com; see README.md) to solve
 integer linear programs. One can download SCIP from [here](https://scip.zib.de/index.php#download).
-Compiling it from source using CMake is recommended.
+Compiling it from source using CMake is one way to SCIP installed.
 
 We want to install SCIP in such a way that PySCIPOpt, the Python interface for SCIP
 can be installed.
