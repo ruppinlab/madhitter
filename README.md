@@ -25,10 +25,10 @@ treatments or in purchasing existing treatments) if we can reuse the same target
 within the cohort).
 
 Our problem can be formulated as a generalized version of hitting set satisfying certain properties.
-See our manuscript: [The Landscape of Precision Cancer Combination Therapy: A Single-Cell Perspective](https://www.biorxiv.org/content/10.1101/2020.01.28.923532v1) for more details.
+See our manuscript: [The Landscape of Precision Cancer Combination Therapy: A Single-Cell Perspective](https://www.biorxiv.org/content/10.1101/2020.01.28.923532v3) for more details.
  
 ## Prerequisites
-MadHitter relies on the packages SCIP and Gurobi to solve integer linear programs. It suffices to have only one of them.
+MadHitter relies on the packages SCIP and Gurobi to solve integer linear programs. It suffices to have only one of the two packages.
 - SCIP
    - [SCIP v.6.0+](https://scip.zib.de/)
    - [PySCIPOpt](https://github.com/SCIP-Interfaces/PySCIPOpt)
@@ -39,10 +39,10 @@ The version choices for SCIP and PySCIPOpt are linked. Use a PySCIPTOpt version 
 
 For licensing reasons, we did the implementation using SCIP first and the implementation using Gurobi second. Therefore, the default MadHitter behavior is to use SCIP and an extra flag --use_gurobi must be included to switch to Gurobi. 
 
-On systems where python3.6+ is available by default, no python installation is needed. After SCIP, PySCIPOpt, Gurobi, and Python (on which MadHitter depends) are installed, the MadHitter can be used. No additional steps, such s compiling a program, are needed.
+On systems where python3.6+ is available by default, no python installation is needed. After SCIP, PySCIPOpt, Gurobi, and Python (on which MadHitter depends) are installed, the MadHitter can be used. No additional steps, such as compiling a program, are needed.
 
 ## Note on installation
-There are multiple ways to install our packages. Here we give a short brief of how
+There are multiple ways to install our packages. Here, we give a brief of how
 to install MadHitter via conda (a package & environment management system).
 We also have a separate [INSTALLATION.md](INSTALLATION.md) for those who want to install
 SCIP and PySCIPOpt as standalone packages.
@@ -60,7 +60,7 @@ install SCIP (most recently tested with v7.0.2) and PySCIPOpt (most recently tes
 ```bash
 $ conda install -c conda-forge pyscipopt
 ```
-The default versions of the packages are subject to change, so we cannot guarantee if this will always work,
+The default versions of the packages are subject to change, so we cannot guarantee that this will always work,
 but if it is, then this can simplify the process by a lot.
 
 #### Gurobi
