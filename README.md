@@ -53,7 +53,7 @@ We can utilize conda to install SCIP and Gurobi. For those who are not familiar 
 [here is an introductory video.](https://www.youtube.com/watch?v=YJC6ldI3hWk)
 
 #### SCIP
-If you are already familiar with conda, then the following command would
+If you are already familiar with conda, then the following command should
 install SCIP (most recently tested with v7.0.2) and PySCIPOpt (most recently tested with v3.1.4) for you. 
 
 
@@ -61,7 +61,7 @@ install SCIP (most recently tested with v7.0.2) and PySCIPOpt (most recently tes
 $ conda install -c conda-forge pyscipopt
 ```
 The default versions of the packages are subject to change, so we cannot guarantee that this will always work,
-but if it is, then this can simplify the process by a lot.
+but if the conda installation works, then this can simplify the overall MadHitter installation.
 
 #### Gurobi
 
@@ -83,8 +83,8 @@ b) the procedures for Gurobi installation on UNIX are more site-specific,
 especially varying according to how the Gurobi license token is locally managed.
 We refer the user to the [Gurobi website](www.gurobi.com) for further guidance on Gurobi licensing and installation.
 
-- SCIP should be installed with CMake (see [this guide](https://scip.zib.de/doc/html/CMAKE.php)) to make sure that it is compatiable with PySCIPOpt (see also [PySCIPOpt Installation](https://github.com/SCIP-Interfaces/PySCIPOpt/blob/master/INSTALL.md)).
-- PySCIPOpt should be installed so that it is available to python3. In the other word, one should make sure that Python3's pip (pip3) should be used instead of Python2's pip.
+- If SCIP is installed without conda, then SCIP should be installed with CMake (see [this guide](https://scip.zib.de/doc/html/CMAKE.php)) to make sure that it is compatiable with PySCIPOpt (see also [PySCIPOpt Installation](https://github.com/SCIP-Interfaces/PySCIPOpt/blob/master/INSTALL.md)).
+- PySCIPOpt should be installed so that it is available to python3. In the other words, one should make sure that Python3's pip (pip3) should be used instead of Python2's pip.
 
 Please see our [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
