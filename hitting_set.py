@@ -30,7 +30,7 @@ def print_fraction_killed_normal_cells(model: Model, patients: List[Patient]) ->
                 if get_val(model, patient.local_vars[gene_name]) > 0.5:
                     if patient.covers(gene_value[non_tumor_cell_id], gene_name):   #check if expression of this gene is high enough for cell to be killed
                         hit_normal_cells.add(normal_cell_name)
-        if len(patient.non_tumor_cell_names) is not 0:
+        if (len(patient.non_tumor_cell_names) != 0):
             ratio_hit_normall_cells = float(len(hit_normal_cells)/len(patient.non_tumor_cell_names))
         else:
             ratio_hit_normall_cells = 0
