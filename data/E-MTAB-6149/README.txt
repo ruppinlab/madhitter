@@ -15,12 +15,12 @@ The files with 38 genes are called:
 <patient>_noncancer_cells_thresh1_38genes.txt
 <patient>_allnontumor_cells_thresh1_38genes.txt
 
-The files with 1279 genes are called:
-<patient>_cancer_cells_thresh1_1279genes.txt
-<patient>_noncancer_cells_thresh1_1279genes.txt
-<patient>_allnontumor_cells_thresh1_1279genes.txt
+The files with 1269 genes are called:
+<patient>_cancer_cells_thresh1_1269genes.txt
+<patient>_noncancer_cells_thresh1_1269genes.txt
+<patient>_allnontumor_cells_thresh1_1269genes.txt
 
-In this data set 739/1279 genes encoding cell surface receptors were measured.
+In this data set 739/1269 genes encoding cell surface receptors were measured.
 
 The cancer and non-cancer cells are separated and indicated in the file names.
 
