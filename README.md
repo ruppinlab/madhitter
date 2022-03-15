@@ -102,7 +102,7 @@ $ python3
 
 Alternatively, one can run our test file, which should be a good indicator that every library needed has been correctly installed.
 ```bash
-python3 test.py
+$ python3 test.py
 ```
 
 ## Getting data sets
@@ -114,12 +114,12 @@ We will upload more data sets later and the links should appear here.
 ## Usage
 - Run the following command to see the full list of flags.
 ```bash
-python3 hitting-set.py --help
+$ python3 hitting_set.py --help
 ```
 
 - To run the hitting set ILP against a data set, the most basic command is as follows: 
 ```bash
-python3 hitting_set.py --tumor_files tfile_1 tfile_2 ... tfile_n
+$ python3 hitting_set.py --tumor_files tfile_1 tfile_2 ... tfile_n
 ```
 In this case, the program will first solve *n* hitting set instances, one for each file.
 It will then find a set of genes containing optimal solutions for all instsances simutaneously.
@@ -132,7 +132,7 @@ such the different combinations (unions) of local hitting sets lead to smaller c
 - `--tumor_files tfile_1 [tfile_2 ... tfile_n]` This is the only required flag of the program.
 This flag allows us to input a cohort of instances.
 We represent each patient as each data file in the cohort (see [File format](#file-format) and our manuscript).
-- `--non_tumor_files nfile_1 nfile_2 ... nfile_n` This flag allows us to put information regarding
+- `--non_tumor_files nfile_1 [nfile_2 ... nfile_n]` This flag allows us to put information regarding
 non-tumor cells for patients in the cohort.
 If this flag is specified, then the over-expressed model is used (see our manuscript for more information).
 In this model, a gene hits a cell if the expression level of the gene on the cell is *r* times greather than 
@@ -146,7 +146,7 @@ We will use `nfile_1` to calculate the means used for the instance in `tfile_1`.
 One real example command is provided below.
 
 ```bash
-python3 hitting_set.py \
+$ python3 hitting_set.py \
    --tumor_files data/E-MTAB-6149/*_cancer_*38* \
    --non_tumor_files data/E-MTAB-6149/*_noncancer_*38* \
    -r=1.5 --alpha=1 --data_column=2
@@ -154,7 +154,7 @@ python3 hitting_set.py \
 
 - `--use_log_scale` In some cases, the data files might represent the expression level using values on a log-2 scale, which is conventional in studies of gene expression. This flag handles that.
 
-- `--use_absolute_model` This flag flips an alternate model where we want a set of genes that have local solutions of size at most *ALPHA*.
+- `--use_absolute_model` This flag flips an alternate model where we want a set of genes that have local solutions of size at most *alpha*.
 (so the `--alpha` flag will not reflect the additive error anymore.)
 - `--use_lp` With this flag on, the program will allow fractional solutions, rather than strictly integer solutions.
 - `--use_greedy` With this flag on, the program will run an alternative greedy approach algorithm instead.
@@ -163,7 +163,7 @@ python3 hitting_set.py \
 
 We support both SCIP and Gurobi to solve the ILPs. By default, SCIP is used. To switch to Gurobi, the flag `--use_gurobi` needs to be specified as part of the command to run hitting_set.py
 
-When using Gurobi, it is possible to get multiple (equally good) optimal solutions, while SCIP provides only one optimal solution, breaking ties arbitrarily. To get multiple optimal solutions in conjunction with --use_gurobi, if they exist, add the the flag `--num_sol <n>` where `<n>` represents an integer upper bound on the number of optimal solutions reported. If the number of optimal solutions reported is fewer than n, then one can be sure that all optimal solutions have been reported.
+When using Gurobi, it is possible to get multiple (equally good) optimal solutions, while SCIP provides only one optimal solution, breaking ties arbitrarily. To get multiple optimal solutions in conjunction with --use_gurobi, if they exist, add the the flag `--num_sol n` where `n` represents an integer upper bound on the number of optimal solutions reported. If the number of optimal solutions reported is fewer than n, then one can be sure that all optimal solutions have been reported.
 
 ### Example Output
 The command above, if run successfully, should produce a global solution of size 25.
@@ -200,7 +200,9 @@ In this table, notice that we might want to use only the second column as our id
 Moreover, the first data column (the columns whose the numbers located in)
 is the fourth column. Hence, we use the following flags.
 
-> `--data_column 3 --name_column 1`
+```
+--data_column 3 --name_column 1
+```
 
 As a result, we discard the columns *gene id / gene type* and use *gene name*
 as our genes' identifiers. The column numbers are zero-based.
@@ -244,10 +246,10 @@ This program will produce 20 replicates of the data set.
 For each replication and for each patient, it produces a smaller version of size at most 250 cells.
 
 If the input includes both tumor files and non-tumor files, then the file names should match as for
-`hitting\_set.py`. Each pair of files corresponding to a single patient will be sampled separately. The output file
-names include `replication\_<n>` as part of the file name to distinguish each replicate, where <n> is an
+`hitting_set.py`. Each pair of files corresponding to a single patient will be sampled separately. The output file
+names include `replication_n` as part of the file name to distinguish each replicate, where n is an
 integer from 1 up to the value specified for `--replication`. In the replication files for tumor cells for patients,
-there is going to be a suffix `actual\_<x>` where `x` is the actual number of cells we can sample.
+there is going to be a suffix `actual_x` where `x` is the actual number of cells we can sample.
 In most case, this will be identical to the number `y` in the argument `--num_cells y`, but if in an instance,
 the number of cells is less than `y`, then `x` will be that smaller number.
 
