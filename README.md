@@ -28,7 +28,7 @@ Our problem can be formulated as a generalized version of hitting set satisfying
 See our manuscript: [The Landscape of Precision Cancer Combination Therapy: A Single-Cell Perspective](https://www.biorxiv.org/content/10.1101/2020.01.28.923532v3) for more details.
  
 ## Prerequisites
-MadHitter relies on the packages SCIP and Gurobi to solve integer linear programs. It suffices to have only one of the two packages.
+MadHitter relies on the packages SCIP and Gurobi to solve integer linear programs (ILPs). It suffices to have only one of the two packages.
 - SCIP
    - [SCIP v.6.0+](https://scip.zib.de/)
    - [PySCIPOpt](https://github.com/SCIP-Interfaces/PySCIPOpt)
@@ -65,12 +65,13 @@ but if the conda installation works, then this can simplify the overall MadHitte
 
 #### Gurobi
 
-The Gurobi ILP solver requires a license. There are several types of license; the license with which we use MadHitter and Gurobi is enforced by a token server that recognizes approved userids. The following commands would install Gurobi (current version v9.1.2) and gurobipy. 
+The Gurobi ILP solver requires a license. There are several types of license; the license with which we use MadHitter and Gurobi is enforced by a token server that recognizes approved userids. The following commands would install Gurobi (current version v10.0.x, for some integer value of x) and gurobipy. 
 
 ```bash
 $ conda install -c gurobi gurobi
 ```
-You will still need to obtain a Gurobi license and here is the link to the [quick start guide to help you with the license](https://www.gurobi.com/documentation/quickstart.html). 
+You will still need to obtain a Gurobi license and here is the link to the [quick start guide to help you with the license]
+hhttps://www.gurobi.com/academia/academic-program-and-licenses/
 
 MadHitter connects to Gurobi by importing gurobipy when the flag –use_gurobi is specified.
 
